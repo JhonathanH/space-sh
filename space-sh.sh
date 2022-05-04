@@ -1,17 +1,10 @@
 #!/bin/bash
-
-
 supported="Ubuntu18.04"
 COLOR1='\033[0;32m'                                         #green color
 COLOR2='\033[0;31m'                                         #red color
 COLOR3='\33[0;33m'
 COLOR4='\033[1;35m'
 NC='\033[0m'                                                #no color
-
-
-
-
-
 function installFIVEM() {
 cat << "EOF"
 Merci de nous avoir choisi !                    
@@ -21,7 +14,6 @@ COLOR1='\033[0;32m'                                         #green color
 COLOR2='\033[0;31m'                                         #red color
 COLOR3='\33[0;33m'
 NC='\033[0m'                                                #no color
-
  if [ "$(id -u)" != "0" ]; then
          printf "${RED}ERREUR : Veuiller resuivre le tutoriel une erreur c'est produite ouvrir un ticket si probleme erreur : ROOT-0. ⛔️\\n" 1>&2
          printf "\\n"
