@@ -8,7 +8,14 @@
 # By Clashplayer#8772
 
 cat << "EOF"
-Bienvenue sur l'installateur FiveM automatique !                            
+  /$$$$$$  /$$   /$$         /$$$$$$$$ /$$$$$$ /$$    /$$ /$$$$$$$$ /$$      /$$       /$$    /$$  /$$$$$$        /$$  
+ /$$__  $$| $$  | $$        | $$_____/|_  $$_/| $$   | $$| $$_____/| $$$    /$$$      | $$   | $$ /$$__  $$     /$$$$  
+| $$  \__/| $$  | $$        | $$        | $$  | $$   | $$| $$      | $$$$  /$$$$      | $$   | $$|__/  \ $$    |_  $$  
+|  $$$$$$ | $$$$$$$$ /$$$$$$| $$$$$     | $$  |  $$ / $$/| $$$$$   | $$ $$/$$ $$      |  $$ / $$/  /$$$$$$/      | $$  
+ \____  $$| $$__  $$|______/| $$__/     | $$   \  $$ $$/ | $$__/   | $$  $$$| $$       \  $$ $$/  /$$____/       | $$  
+ /$$  \ $$| $$  | $$        | $$        | $$    \  $$$/  | $$      | $$\  $ | $$        \  $$$/  | $$            | $$  
+|  $$$$$$/| $$  | $$        | $$       /$$$$$$   \  $/   | $$$$$$$$| $$ \/  | $$         \  $/   | $$$$$$$$ /$$ /$$$$$$
+ \______/ |__/  |__/        |__/      |______/    \_/    |________/|__/     |__/          \_/    |________/|__/|______/                             
 EOF
 #Supported systems:
 supported="Ubuntu"
@@ -18,10 +25,11 @@ COLOR3='\33[0;33m'
 NC='\033[0m'                                                #no color
 
  if [ "$(id -u)" != "0" ]; then
-         printf "${RED}CODE ERREUR: ROOT-FALSE. ⛔️\\n" 1>&2
+         printf "${RED}ERREUR : SH-FIVEM  n'a pas accès root. ⛔️\\n" 1>&2
          printf "\\n"
          exit 1
  fi
+     printf "${COLOR1} Plus besoin du screen avec la version 2.1 de  \\n"
     printf "${COLOR1}©️  Copyright Tous droits réservés.©️ \\n"
     printf "${COLOR2}💻 Systèmes pris en charge : $supported 💻\\n"
     printf "${NC}\\n"    
@@ -35,7 +43,7 @@ apt install sudo xz-utils git curl screen -y
 
 #Installation de 5104
 echo
-    printf "${YELLOW} Dernière artifact trouver 5204 souhaitez-vous le prendre?  [o/N]\\n"
+    printf "${YELLOW} LAST NEW Artifacts : Souhaitez-vous instalaltion du serveur Five M avec la version de 5104 ❓  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
@@ -51,6 +59,17 @@ printf "${CYAN} Démarrage de l'instalaltion de version de 5104 pour serveur Fiv
 fi
 sleep 2
 
+#Installation de SYSTEMCTL
+echo
+    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur fivem ?  ❓  [o/N]\\n"
+    read reponse
+if [[ "$reponse" == "o" ]]
+then 
+printf "${CYAN} Démarrage technologie pour démarrer votre serveur fivem !"
+    cd /etc/systemd/system
+    wget https://raw.githubusercontent.com/Clashplayer-PROTECT/sh-fivem/master/fivem.service
+    systemctl enable fivem.service
+fi
 sleep 2
 
 #Installation de SYSTEMCTL | TXADMIN
@@ -66,9 +85,9 @@ printf "${CYAN} Démarrage technologie pour démarrer votre serveur TXADMIN !"
 fi
 sleep 2
 
-# Installation mysql-server
+# Installation MARIADB
 echo
-    printf "${YELLOW} Souhaitez-vous créer une installation automatique de Mysql Server ? [O/N]\\n"
+    printf "${YELLOW} Souhaitez-vous créer une installation automatique de MariaDB   ❓ [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
@@ -81,14 +100,14 @@ printf "${CYAN} Démarrage de l'instalaltion de MariaDB pour serveur FiveM !"
     sudo add-apt-repository ppa:ondrej/php
     sudo apt-get update -y
     sudo apt-get install php-mbstring php-gettext
-    sudo apt install php7.4 -y
+    sudo apt -y install php7.4
     apt install -y php7.4-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-client mariadb-server apache2 tar unzip git 
     php -v
 
 fi
 sleep 2
 
-echo -n -e "${GREEN}Quel est le nom de votre base de données  ${YELLOW}(space_base)${reset}: "
+echo -n -e "${GREEN}Quel est le nom de votre base de données ❓ ${YELLOW}(sh_base)${reset}: "
 read -r DBNAME
 
 if [[ "$DBNAME" == "" ]]; then
@@ -96,7 +115,7 @@ if [[ "$DBNAME" == "" ]]; then
 fi
 
 sleep 2
-echo -n -e "${GREEN}Quelle nom d'utilisateur souhaitez-vous ? ${YELLOW}(space-fivem)${reset}: "
+echo -n -e "${GREEN}Quel est l'utilisateur de votre base de données ❓ ${YELLOW}(sh-fivem)${reset}: "
 read -r DBUSER
 
 if [[ "$DBUSER" == "" ]]; then
@@ -110,27 +129,26 @@ read -s -r DBPASS
 while true; do
 
   if [[ "$DBPASS" == "" ]]; then
-    echo -e "${red}MDP OBLIGATOIRE"
-    echo -n -e "${GREEN}Quel mdp souhaitez vous ? ${reset}: "
+    echo -e "${red}Le mot de passe doit être obligatoire !"
+    echo -n -e "${GREEN}Quel est le mot de passe de votre base de données ❓ ${reset}: "
     read -s -r DBPASS
   else
-    echo -e "${GREEN}Le mdp est niquel !${reset}" 
+    echo -e "${GREEN}Le mot de passe est correct !${reset}" 
     break 
   fi
 done 
 
 
-#Installation PMA
+#Installation PHPMYADMIN
 echo
     printf "${YELLOW} Souhaitez-vous crée une installation automatique de PHPMYADMIN   ❓ [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
 printf "${CYAN} Démarrage de l'instalaltion de phpMyAdmin pour serveur Five M !"
-mkdir /var/www/phpmyadmin && cd /var/www/phpmyadmin
-wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.gz
-tar xvzf phpMyAdmin-latest-english.tar.gz
-mv /var/www/phpmyadmin/phpMyAdmin-latest-english/* /var/www/phpmyadmin
+    apt install phpmyadmin
+    sudo service apache2 restart
+    ln -s /usr/share/phpmyadmin/ /var/www/html/phpmyadmin
 fi
 
 echo -e "Configuration de la utilisateur"
@@ -161,5 +179,12 @@ echo -e "Configuration de la utilisateur"
 
 
 cat << "EOF"
-Aurevoir. :) 
+  /$$$$$$  /$$   /$$         /$$$$$$$$ /$$$$$$ /$$    /$$ /$$$$$$$$ /$$      /$$       /$$    /$$  /$$$$$$        /$$  
+ /$$__  $$| $$  | $$        | $$_____/|_  $$_/| $$   | $$| $$_____/| $$$    /$$$      | $$   | $$ /$$__  $$     /$$$$  
+| $$  \__/| $$  | $$        | $$        | $$  | $$   | $$| $$      | $$$$  /$$$$      | $$   | $$|__/  \ $$    |_  $$  
+|  $$$$$$ | $$$$$$$$ /$$$$$$| $$$$$     | $$  |  $$ / $$/| $$$$$   | $$ $$/$$ $$      |  $$ / $$/  /$$$$$$/      | $$  
+ \____  $$| $$__  $$|______/| $$__/     | $$   \  $$ $$/ | $$__/   | $$  $$$| $$       \  $$ $$/  /$$____/       | $$  
+ /$$  \ $$| $$  | $$        | $$        | $$    \  $$$/  | $$      | $$\  $ | $$        \  $$$/  | $$            | $$  
+|  $$$$$$/| $$  | $$        | $$       /$$$$$$   \  $/   | $$$$$$$$| $$ \/  | $$         \  $/   | $$$$$$$$ /$$ /$$$$$$
+ \______/ |__/  |__/        |__/      |______/    \_/    |________/|__/     |__/          \_/    |________/|__/|______/  
 EOF
