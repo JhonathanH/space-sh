@@ -1,25 +1,14 @@
-#Supported systems:
-supported="Ubuntu"
-COLOR1='\033[0;32m'                                         #green color
-COLOR2='\033[0;31m'                                         #red color
-COLOR3='\33[0;33m'
-COLOR4='\033[1;35m'
-NC='\033[0m'                                                #no color
+#!/bin/bash
+# Script Auto Install Five M
+#=====================================================================================
+# Author:   Clashplayer#3630 
+#=====================================================================================
+#=====================================================================================
+# Root Force
+# By Clashplayer#8772
 
-
-
-
-
-function installFIVEM() {
 cat << "EOF"
-  /$$$$$$  /$$   /$$         /$$$$$$$  /$$$$$$$$ /$$$$$$$$ /$$$$$$ 
- /$$__  $$| $$  | $$        | $$__  $$| $$_____/|__  $$__//$$__  $$
-| $$  \__/| $$  | $$        | $$  \ $$| $$         | $$  | $$  \ $$
-|  $$$$$$ | $$$$$$$$ /$$$$$$| $$$$$$$ | $$$$$      | $$  | $$$$$$$$
- \____  $$| $$__  $$|______/| $$__  $$| $$__/      | $$  | $$__  $$
- /$$  \ $$| $$  | $$        | $$  \ $$| $$         | $$  | $$  | $$
-|  $$$$$$/| $$  | $$        | $$$$$$$/| $$$$$$$$   | $$  | $$  | $$
- \______/ |__/  |__/        |_______/ |________/   |__/  |__/  |__/                        
+Bienvenue sur l'installateur FiveM automatique !                            
 EOF
 #Supported systems:
 supported="Ubuntu"
@@ -29,21 +18,11 @@ COLOR3='\33[0;33m'
 NC='\033[0m'                                                #no color
 
  if [ "$(id -u)" != "0" ]; then
-         printf "${RED}ERREUR : SH-FIVEM  n'a pas accès root. ⛔️\\n" 1>&2
+         printf "${RED}CODE ERREUR: ROOT-FALSE. ⛔️\\n" 1>&2
          printf "\\n"
          exit 1
  fi
-
- 
-     printf "${COLOR1} Plus besoin du screen avec la version 2.1 de  \\n"
     printf "${COLOR1}©️  Copyright Tous droits réservés.©️ \\n"
-dist=`grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}'`
-    if [ "$dist" == "Ubuntu" ]; then
-        printf "${COLOR1}©️  Votre système d'exploitation est pris en charge par SH-FIVEM.©️ \\n"
-    else
-    printf "${COLOR2}💻 Malheureusement votre système d'exploitation n'est pas pris en charge par SH-FIVEM  💻\\n"
-    exit
-    fi
     printf "${COLOR2}💻 Systèmes pris en charge : $supported 💻\\n"
     printf "${NC}\\n"    
     sleep 6
@@ -52,37 +31,19 @@ dist=`grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}'`
 # Prérequis installation Five M
 apt update -y
 apt upgrade -y
-apt install sudo xz-utils git curl screen jq -y
+apt install sudo xz-utils git curl screen -y
 
-#Installation de LATEST
+#Installation de 5104
 echo
-    printf "${YELLOW} LAST NEW Artifacts : Souhaitez-vous instalaltion du serveur Five M avec la version de LATEST ❓  [o/N]\\n"
+    printf "${YELLOW} Dernière artifact trouver 5204 souhaitez-vous le prendre?  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} Démarrage de l'instalaltion de version de LATEST pour serveur Five M !"
-cd /home/
-mkdir -p fivem
-cd /home/fivem
-RELEASE_PAGE=$(curl -sSL https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/)
-CHANGELOGS_PAGE=$(curl -sSL https://changelogs-live.fivem.net/api/changelog/versions/linux/server)
-
-if [[ "${FIVEM_VERSION}" == "latest" ]] || [[ -z ${FIVEM_VERSION} ]]; then
-  DOWNLOAD_LINK=$(echo $CHANGELOGS_PAGE | jq -r '.latest_download')
-else
-  VERSION_LINK=$(echo -e "${RELEASE_PAGE}" | grep -Eo '".*/*.tar.xz"' | grep -Eo '".*"' | sed 's/\"//g' | sed 's/\.\///1' | grep ${CFX_VERSION})
-  if [[ "${VERSION_LINK}" == "" ]]; then
-    echo -e "defaulting to latest as the version requested was invalid."
-    DOWNLOAD_LINK=$(echo $CHANGELOGS_PAGE | jq -r '.latest_download')
-  else
-    DOWNLOAD_LINK=$(echo https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSION_LINK})
-  fi
-fi
-
-
-
-curl -sSL ${DOWNLOAD_LINK} -o ${DOWNLOAD_LINK##*/}
-
+printf "${CYAN} Démarrage de l'instalaltion de version de 5104 pour serveur Five M !"
+    cd /home/
+    mkdir -p fivem
+    cd /home/fivem
+    wget  https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/5402-810a639673d8da03fe4b1dc2b922c9c0265a542e/fx.tar.xz
     tar xvfJ fx.tar.xz
     # Suppression du cache automatique
     # sed -i '1irm -r cache' run.sh
@@ -90,36 +51,24 @@ curl -sSL ${DOWNLOAD_LINK} -o ${DOWNLOAD_LINK##*/}
 fi
 sleep 2
 
-#Installation de SYSTEMCTL
-echo
-    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur fivem ?  ❓  [o/N]\\n"
-    read reponse
-if [[ "$reponse" == "o" ]]
-then 
-printf "${CYAN} Démarrage technologie pour démarrer votre serveur fivem !"
-    cd /etc/systemd/system
-    wget https://raw.githubusercontent.com/Clashplayer-PROTECT/sh-fivem/master/fivem.service
-    systemctl enable fivem.service
-fi
 sleep 2
 
-#Installation de SYSTEMCTL TXADMIN
+#Installation de SYSTEMCTL | TXADMIN
 echo
-    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur fivem avec TXadmin ?  ❓  [o/N]\\n"
+    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur TXADMIN ?  ❓  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} Démarrage technologie pour démarrer votre serveur fivem avec TXadmin !"
+printf "${CYAN} Démarrage technologie pour démarrer votre serveur TXADMIN !"
     cd /etc/systemd/system
     wget https://raw.githubusercontent.com/Clashplayer-PROTECT/sh-fivem/master/txadmin.service
     systemctl enable txadmin.service
 fi
 sleep 2
 
-
-# Installation MARIADB
+# Installation mysql-server
 echo
-    printf "${YELLOW} Souhaitez-vous créer une installation automatique de MariaDB   ❓ [o/N]\\n"
+    printf "${YELLOW} Souhaitez-vous créer une installation automatique de Mysql Server ? [O/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
@@ -131,13 +80,15 @@ printf "${CYAN} Démarrage de l'instalaltion de MariaDB pour serveur FiveM !"
     apt update -y
     sudo add-apt-repository ppa:ondrej/php
     sudo apt-get update -y
-    apt -y install php8.*-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} apache2 mariadb-server tar unzip git redis-server
+    sudo apt-get install php-mbstring php-gettext
+    sudo apt install php7.4 -y
+    apt install -y php7.4-{cli,gd,mysql,pdo,mbstring,tokenizer,bcmath,xml,fpm,curl,zip} mariadb-client mariadb-server apache2 tar unzip git 
     php -v
 
 fi
 sleep 2
 
-echo -n -e "${GREEN}Quel est le nom de votre base de données ❓ ${YELLOW}(sh_base)${reset}: "
+echo -n -e "${GREEN}Quel est le nom de votre base de données  ${YELLOW}(space_base)${reset}: "
 read -r DBNAME
 
 if [[ "$DBNAME" == "" ]]; then
@@ -145,7 +96,7 @@ if [[ "$DBNAME" == "" ]]; then
 fi
 
 sleep 2
-echo -n -e "${GREEN}Quel est l'utilisateur de votre base de données ❓ ${YELLOW}(sh-fivem)${reset}: "
+echo -n -e "${GREEN}Quelle nom d'utilisateur souhaitez-vous ? ${YELLOW}(space-fivem)${reset}: "
 read -r DBUSER
 
 if [[ "$DBUSER" == "" ]]; then
@@ -159,26 +110,27 @@ read -s -r DBPASS
 while true; do
 
   if [[ "$DBPASS" == "" ]]; then
-    echo -e "${red}Le mot de passe doit être obligatoire !"
-    echo -n -e "${GREEN}Quel est le mot de passe de votre base de données ❓ ${reset}: "
+    echo -e "${red}MDP OBLIGATOIRE"
+    echo -n -e "${GREEN}Quel mdp souhaitez vous ? ${reset}: "
     read -s -r DBPASS
   else
-    echo -e "${GREEN}Le mot de passe est correct !${reset}" 
+    echo -e "${GREEN}Le mdp est niquel !${reset}" 
     break 
   fi
 done 
 
 
-#Installation PHPMYADMIN
+#Installation PMA
 echo
     printf "${YELLOW} Souhaitez-vous crée une installation automatique de PHPMYADMIN   ❓ [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
 printf "${CYAN} Démarrage de l'instalaltion de phpMyAdmin pour serveur Five M !"
-    apt install phpmyadmin
-    sudo service apache2 restart
-    ln -s /usr/share/phpmyadmin/ /var/www/html/phpmyadmin
+mkdir /var/www/phpmyadmin && cd /var/www/phpmyadmin
+wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.gz
+tar xvzf phpMyAdmin-latest-english.tar.gz
+mv /var/www/phpmyadmin/phpMyAdmin-latest-english/* /var/www/phpmyadmin
 fi
 
 echo -e "Configuration de la utilisateur"
@@ -191,10 +143,6 @@ echo -e "Configuration de la utilisateur"
   
 
   sleep 3
-
-mkdir /etc/sh-fivem/
-echo "SUCCES 202" > /etc/sh-fivem/sh-install
-
     printf "${COLOR3} L'installation est terminée ! \\n"
     printf "${COLOR3} Discord de SH-FIVEM : https://discord.gg/Bx5UUV54mu \\n"
     printf "${COLOR3} Github de Clahsplayer sur SH-FIVEM: https://github.com/Clashplayer-PROTECT/sh-fivem \\n"
@@ -209,67 +157,9 @@ echo "SUCCES 202" > /etc/sh-fivem/sh-install
     printf "${COLOR2}💻 TOPO sur créaction de votre seveur ! \\n"
     printf "${COLOR2}💻 Chemin du dossier  : /home/fivem \\n"
     printf "${COLOR2}💻 Ne surtout pas supprime run.sh et alpine\\n"
-    printf "${COLOR2}💻 Ligne FiveM MySQL : \\n"
-}
-
-function UpdateArtefact () {
- cd /home/fivem/
- rm -rf alpine/
- RELEASE_PAGE=$(curl -sSL https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/)
-CHANGELOGS_PAGE=$(curl -sSL https://changelogs-live.fivem.net/api/changelog/versions/linux/server)
-
-if [[ "${FIVEM_VERSION}" == "latest" ]] || [[ -z ${FIVEM_VERSION} ]]; then
-  DOWNLOAD_LINK=$(echo $CHANGELOGS_PAGE | jq -r '.latest_download')
-else
-  VERSION_LINK=$(echo -e "${RELEASE_PAGE}" | grep -Eo '".*/*.tar.xz"' | grep -Eo '".*"' | sed 's/\"//g' | sed 's/\.\///1' | grep ${CFX_VERSION})
-  if [[ "${VERSION_LINK}" == "" ]]; then
-    echo -e "defaulting to latest as the version requested was invalid."
-    DOWNLOAD_LINK=$(echo $CHANGELOGS_PAGE | jq -r '.latest_download')
-  else
-    DOWNLOAD_LINK=$(echo https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${VERSION_LINK})
-  fi
-fi
+    printf "${NC}\\n"    
 
 
-
-curl -sSL ${DOWNLOAD_LINK} -o ${DOWNLOAD_LINK##*/}
-
-    tar xvfJ fx.tar.xz
-    # Suppression du cache automatique
-    # sed -i '1irm -r cache' run.sh
-    rm fx.tar.xz
-}
-
-function OpenMENU() {
-        printf "${COLOR3} Bienvenue sur le contrôleur SH-FIVEM ! \\n"
-        printf "${COLOR2} Que voulez-vous faire ? \\n"
-        echo "   1) Update votre artefact"
-      	echo "   2) Création d'un nouvel utilisateur PhpMyAdmin"
-	echo "   3) Quitter"
-        printf "${NC} \\n"
-
-	until [[ ${MENU_OPTION} =~ ^[1-3]$ ]]; do
-		read -rp "Sélectionnez une option [1-3]: " MENU_OPTION
-	done
-	case "${MENU_OPTION}" in
-	1)
-		UpdateArtefact
-		;;
-        2)
-		newPHPMYADMIN
-		;;
-	3)
-		exit 0
-		;;
-	esac
-}
-
-
-
-
-if [[ -e /etc/sh-fivem/sh-install ]]; then
-	source /etc/sh-fivem/sh-install
-	OpenMENU
-else
-	installFIVEM
-fi
+cat << "EOF"
+Aurevoir. :) 
+EOF
