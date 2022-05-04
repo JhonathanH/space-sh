@@ -1,44 +1,66 @@
-#!/bin/bash
-                                              #no color
+#Supported systems:
+supported="Ubuntu"
+COLOR1='\033[0;32m'                                         #green color
+COLOR2='\033[0;31m'                                         #red color
+COLOR3='\33[0;33m'
+COLOR4='\033[1;35m'
+NC='\033[0m'                                                #no color
+
+
+
+
+
 function installFIVEM() {
 cat << "EOF"
-  /$$$$$$  /$$   /$$         /$$$$$$$$ /$$$$$$ /$$    /$$ /$$$$$$$$ /$$      /$$       /$$    /$$  /$$$$$$        /$$  
- /$$__  $$| $$  | $$        | $$_____/|_  $$_/| $$   | $$| $$_____/| $$$    /$$$      | $$   | $$ /$$__  $$     /$$$$  
-| $$  \__/| $$  | $$        | $$        | $$  | $$   | $$| $$      | $$$$  /$$$$      | $$   | $$|__/  \ $$    |_  $$  
-|  $$$$$$ | $$$$$$$$ /$$$$$$| $$$$$     | $$  |  $$ / $$/| $$$$$   | $$ $$/$$ $$      |  $$ / $$/  /$$$$$$/      | $$  
- \____  $$| $$__  $$|______/| $$__/     | $$   \  $$ $$/ | $$__/   | $$  $$$| $$       \  $$ $$/  /$$____/       | $$  
- /$$  \ $$| $$  | $$        | $$        | $$    \  $$$/  | $$      | $$\  $ | $$        \  $$$/  | $$            | $$  
-|  $$$$$$/| $$  | $$        | $$       /$$$$$$   \  $/   | $$$$$$$$| $$ \/  | $$         \  $/   | $$$$$$$$ /$$ /$$$$$$
- \______/ |__/  |__/        |__/      |______/    \_/    |________/|__/     |__/          \_/    |________/|__/|______/                             
+  /$$$$$$  /$$   /$$         /$$$$$$$  /$$$$$$$$ /$$$$$$$$ /$$$$$$ 
+ /$$__  $$| $$  | $$        | $$__  $$| $$_____/|__  $$__//$$__  $$
+| $$  \__/| $$  | $$        | $$  \ $$| $$         | $$  | $$  \ $$
+|  $$$$$$ | $$$$$$$$ /$$$$$$| $$$$$$$ | $$$$$      | $$  | $$$$$$$$
+ \____  $$| $$__  $$|______/| $$__  $$| $$__/      | $$  | $$__  $$
+ /$$  \ $$| $$  | $$        | $$  \ $$| $$         | $$  | $$  | $$
+|  $$$$$$/| $$  | $$        | $$$$$$$/| $$$$$$$$   | $$  | $$  | $$
+ \______/ |__/  |__/        |_______/ |________/   |__/  |__/  |__/                        
 EOF
-supported="Ubuntu18.04"
+#Supported systems:
+supported="Ubuntu"
 COLOR1='\033[0;32m'                                         #green color
 COLOR2='\033[0;31m'                                         #red color
 COLOR3='\33[0;33m'
 NC='\033[0m'                                                #no color
+
  if [ "$(id -u)" != "0" ]; then
-         printf "${RED}ERREUR : Veuiller resuivre le tutoriel une erreur c'est produite ouvrir un ticket si probleme erreur : ROOT-0. ⛔️\\n" 1>&2
+         printf "${RED}ERREUR : SH-FIVEM  n'a pas accès root. ⛔️\\n" 1>&2
          printf "\\n"
          exit 1
  fi
 
  
+     printf "${COLOR1} Plus besoin du screen avec la version 2.1 de  \\n"
+    printf "${COLOR1}©️  Copyright Tous droits réservés.©️ \\n"
+dist=`grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}'`
+    if [ "$dist" == "Ubuntu" ]; then
+        printf "${COLOR1}©️  Votre système d'exploitation est pris en charge par SH-FIVEM.©️ \\n"
+    else
+    printf "${COLOR2}💻 Malheureusement votre système d'exploitation n'est pas pris en charge par SH-FIVEM  💻\\n"
+    exit
+    fi
     printf "${COLOR2}💻 Systèmes pris en charge : $supported 💻\\n"
     printf "${NC}\\n"    
     sleep 6
+#############################################################################
 
-################### BY SPACE DEV ########################
-
+# Prérequis installation Five M
 apt update -y
 apt upgrade -y
 apt install sudo xz-utils git curl screen jq -y
 
+#Installation de LATEST
 echo
-    printf "${PURPLE} Nouvelle artifact de FiveM ! souhaitez-vous l'installer ?  [O/N]\\n"
+    printf "${YELLOW} LAST NEW Artifacts : Souhaitez-vous instalaltion du serveur Five M avec la version de LATEST ❓  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} Nous démmarons l'installation de la dernière version"
+printf "${CYAN} Démarrage de l'instalaltion de version de LATEST pour serveur Five M !"
 cd /home/
 mkdir -p fivem
 cd /home/fivem
@@ -62,29 +84,32 @@ fi
 curl -sSL ${DOWNLOAD_LINK} -o ${DOWNLOAD_LINK##*/}
 
     tar xvfJ fx.tar.xz
+    # Suppression du cache automatique
+    # sed -i '1irm -r cache' run.sh
     rm fx.tar.xz
 fi
 sleep 2
 
-
+#Installation de SYSTEMCTL
 echo
-    printf "${YELLOW} Vous souhaitez installer TxAdmin afin de pouvoir contrôler sans être en ssh ?  [o/N]\\n"
+    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur fivem ?  ❓  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} "
+printf "${CYAN} Démarrage technologie pour démarrer votre serveur fivem !"
     cd /etc/systemd/system
     wget https://raw.githubusercontent.com/Clashplayer-PROTECT/sh-fivem/master/fivem.service
     systemctl enable fivem.service
 fi
 sleep 2
 
+#Installation de SYSTEMCTL TXADMIN
 echo
-    printf "${YELLOW} Vous souhaitez installer TxAdmin afin de pouvoir contrôler sans être en ssh ? ?  ❓  [o/N]\\n"
+    printf "${YELLOW} Vous souhaitez disposer d'une nouvelle technologie pour démarrer votre serveur fivem avec TXadmin ?  ❓  [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} Oki"
+printf "${CYAN} Démarrage technologie pour démarrer votre serveur fivem avec TXadmin !"
     cd /etc/systemd/system
     wget https://raw.githubusercontent.com/Clashplayer-PROTECT/sh-fivem/master/txadmin.service
     systemctl enable txadmin.service
@@ -92,13 +117,13 @@ fi
 sleep 2
 
 
-
+# Installation MARIADB
 echo
-    printf "${YELLOW} Souhaitez vous l'installation d'une partie du SQL automatique ? [o/N]\\n"
+    printf "${YELLOW} Souhaitez-vous créer une installation automatique de MariaDB   ❓ [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
-printf "${CYAN} Démarrage de l'instalaltion de MariaDB  !"
+printf "${CYAN} Démarrage de l'instalaltion de MariaDB pour serveur FiveM !"
     apt -y install software-properties-common curl apt-transport-https ca-certificates gnupg
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
     add-apt-repository -y ppa:chris-lea/redis-server
@@ -112,30 +137,30 @@ printf "${CYAN} Démarrage de l'instalaltion de MariaDB  !"
 fi
 sleep 2
 
-echo -n -e "${GREEN}Quelle nom souhaitez vous donner à votre base de donnée ? ${YELLOW}(space_basev2)${reset}: "
+echo -n -e "${GREEN}Quel est le nom de votre base de données ❓ ${YELLOW}(sh_base)${reset}: "
 read -r DBNAME
 
 if [[ "$DBNAME" == "" ]]; then
-  DBNAME="space_base"  
+  DBNAME="sh_base"  
 fi
 
 sleep 2
-echo -n -e "${GREEN}Quel est l'utilisateur de votre base de données ❓ ${YELLOW}(space-fivem)${reset}: "
+echo -n -e "${GREEN}Quel est l'utilisateur de votre base de données ❓ ${YELLOW}(sh-fivem)${reset}: "
 read -r DBUSER
 
 if [[ "$DBUSER" == "" ]]; then
-  DBUSER="space-fivem"  
+  DBUSER="sh-fivem"  
 fi
 
 sleep 2
-echo -n -e "${RED}Renter le mot de passe confidentiel de votre base de données ! ${reset}: "
+echo -n -e "${GREEN}Quel est le mot de passe de votre base de données ❓ ${reset}: "
 read -s -r DBPASS
 
 while true; do
 
   if [[ "$DBPASS" == "" ]]; then
     echo -e "${red}Le mot de passe doit être obligatoire !"
-    echo -n -e "${GREEN}Renter le mot de passe confidentiel de votre base de données ${reset}: "
+    echo -n -e "${GREEN}Quel est le mot de passe de votre base de données ❓ ${reset}: "
     read -s -r DBPASS
   else
     echo -e "${GREEN}Le mot de passe est correct !${reset}" 
@@ -144,17 +169,15 @@ while true; do
 done 
 
 
-
+#Installation PHPMYADMIN
 echo
     printf "${YELLOW} Souhaitez-vous crée une installation automatique de PHPMYADMIN   ❓ [o/N]\\n"
     read reponse
 if [[ "$reponse" == "o" ]]
 then 
 printf "${CYAN} Démarrage de l'instalaltion de phpMyAdmin pour serveur Five M !"
-    mkdir /var/www/phpmyadmin && cd /var/www/phpmyadmin
-    wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.gz
-    tar xvzf phpMyAdmin-latest-english.tar.gz
-    mv /var/www/phpmyadmin/phpMyAdmin-latest-english/* /var/www/phpmyadmin
+    apt install phpmyadmin
+    sudo service apache2 restart
     ln -s /usr/share/phpmyadmin/ /var/www/html/phpmyadmin
 fi
 
@@ -173,19 +196,20 @@ mkdir /etc/sh-fivem/
 echo "SUCCES 202" > /etc/sh-fivem/sh-install
 
     printf "${COLOR3} L'installation est terminée ! \\n"
-    printf "${COLOR3} Discord de Space-Dev : discord.gg/space-dev \\n"
+    printf "${COLOR3} Discord de SH-FIVEM : https://discord.gg/Bx5UUV54mu \\n"
+    printf "${COLOR3} Github de Clahsplayer sur SH-FIVEM: https://github.com/Clashplayer-PROTECT/sh-fivem \\n"
     echo -en '\n'
     sleep 3
-    printf "${COLOR1} Voici un résusmer duy Mysql \\n"
+    printf "${COLOR1} TOPO du MySQL \\n"
     printf "${COLOR1} Lien du phpMyAdmin : http://$(hostname -I)/phpmyadmin/ \\n"
     printf "${COLOR1} Nom d'utilisateur de la base de données MySQL: ${DBUSER}\\n"
     printf "${COLOR1} Mot de passe de connexion base de données MySQL: ${DBPASS} \\n"
     echo -en '\n'
     sleep 3
-    printf "${COLOR2}💻 Votre serveur à été créer avec succès ! \\n"
+    printf "${COLOR2}💻 TOPO sur créaction de votre seveur ! \\n"
     printf "${COLOR2}💻 Chemin du dossier  : /home/fivem \\n"
     printf "${COLOR2}💻 Ne surtout pas supprime run.sh et alpine\\n"
-    printf "${COLOR2} POUR DES QUESTIONS DE DEVELOPPEMENT GO SUR : discord.gg/space-dev \\n"
+    printf "${COLOR2}💻 Ligne FiveM MySQL : \\n"
 }
 
 function UpdateArtefact () {
@@ -211,13 +235,15 @@ fi
 curl -sSL ${DOWNLOAD_LINK} -o ${DOWNLOAD_LINK##*/}
 
     tar xvfJ fx.tar.xz
+    # Suppression du cache automatique
+    # sed -i '1irm -r cache' run.sh
     rm fx.tar.xz
 }
 
 function OpenMENU() {
-        printf "${COLOR3} Bienvenue dans le tableau de bord ! \\n"
+        printf "${COLOR3} Bienvenue sur le contrôleur SH-FIVEM ! \\n"
         printf "${COLOR2} Que voulez-vous faire ? \\n"
-        echo "   1) Mettre à jour l'artifact"
+        echo "   1) Update votre artefact"
       	echo "   2) Création d'un nouvel utilisateur PhpMyAdmin"
 	echo "   3) Quitter"
         printf "${NC} \\n"
